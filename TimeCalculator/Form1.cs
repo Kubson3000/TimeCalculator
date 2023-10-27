@@ -1,25 +1,54 @@
 using MySqlConnector;
+using System;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace TimeCalculator
 {
     public partial class Form1 : Form
     {
+        public class ActionData
+        {
+            public string UserID { get; set; }
+            public string LoginTime { get; set; }
+            public string LogoutTime { get; set; }
+        }
         private string input = string.Empty;
         private string secret = "SECRET";
+        string fullDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Timer");
         MySqlConnection conn;
         DateTime startTime;
         private TimeSpan elapsed = TimeSpan.Zero;
         TimeSpan min_time = new TimeSpan(7, 0, 0);
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        int user_id = 1;
+        int user_id = -1;
         public Form1()
         {
+            if (!Directory.Exists(fullDirectoryPath))
+            {
+                Directory.CreateDirectory(fullDirectoryPath);
+            }
             InitializeComponent();
             this.KeyPreview = true;
+            string fullFilePath = Path.Combine(fullDirectoryPath, "conf.json");
+
+            if (File.Exists(fullFilePath))
+            {
+                string json = File.ReadAllText(fullFilePath);
+                ActionData data = JsonConvert.DeserializeObject<ActionData>(json);
+                user_id = int.Parse(data.UserID);
+            }
             if (user_id == -1)
             {
                 start_button.Enabled = false;
                 stop_button.Enabled = false;
+            }
+            else
+            {
+                if (min_time <= DateTime.Now.TimeOfDay)
+                {
+                    start_button.Enabled = true;
+                }
             }
             progressBar1.Maximum = 8 * 60 * 60;
             timer.Interval = 1000;
@@ -96,14 +125,22 @@ namespace TimeCalculator
                 startTime = DateTime.Now;
                 string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
                 timer.Start();
+                start_button.Enabled = false;
+                stop_button.Enabled = true;
                 ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (1,\"" + formattedTime + "\")");
-                return;
+                ActionData data = new ActionData
+                {
+                    UserID = user_id.ToString(),
+                    LoginTime = formattedTime
+                };
+                string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
+                File.WriteAllText(fullFilePath, json);
             }
             else
             {
                 textBox1.Text = ("Jeszcze nie mo¿na zacz¹æ oliczania czasu :(");
             }
-            textBox1.Text = "";
         }
 
         private void stop_button_Click(object sender, EventArgs e)
@@ -113,11 +150,48 @@ namespace TimeCalculator
             DateTime now = DateTime.Now;
             string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
             ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (1,\"" + formattedTime + "\")");
+            ActionData data = new ActionData
+            {
+                UserID = user_id.ToString(),
+                LogoutTime = formattedTime
+            };
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
+            File.WriteAllText(fullFilePath, json);
+            start_button.Enabled = true;
         }
 
         private void hide_secret_button_Click(object sender, EventArgs e)
         {
             panel1.Visible = false;
+        }
+
+        private void login_button_Click(object sender, EventArgs e)
+        {
+            string sql = "SELECT UserID AS \"exists\" FROM users WHERE Username = \"" + username_input.Text + "\" AND `Password` = \"" + password_input.Text + "\"";
+            List<Object[]> res = ExecuteCommandSync(conn, sql);
+            if (res.Count > 0)
+            {
+                var temp = res[0][0];
+                user_id = (int)temp;
+                ActionData data = new ActionData
+                {
+                    UserID = temp.ToString(),
+                };
+                string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                string fullFilePath = Path.Combine(fullDirectoryPath, "conf.json");
+                File.WriteAllText(fullFilePath, json);
+            }
+        }
+
+        private void reset_login_button_Click(object sender, EventArgs e)
+        {
+            string fullFilePath = Path.Combine(fullDirectoryPath, "conf.json");
+
+            if (File.Exists(fullFilePath))
+            {
+                File.Delete(fullFilePath);
+            }
         }
     }
 }

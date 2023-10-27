@@ -33,7 +33,13 @@
             textBox1 = new TextBox();
             progressBar1 = new ProgressBar();
             panel1 = new Panel();
+            login_button = new Button();
+            password_input = new TextBox();
+            username_input = new TextBox();
+            label2 = new Label();
+            label1 = new Label();
             hide_secret_button = new Button();
+            reset_login_button = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -78,12 +84,61 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(reset_login_button);
+            panel1.Controls.Add(login_button);
+            panel1.Controls.Add(password_input);
+            panel1.Controls.Add(username_input);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
             panel1.Controls.Add(hide_secret_button);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(236, 193);
             panel1.TabIndex = 4;
             panel1.Visible = false;
+            // 
+            // login_button
+            // 
+            login_button.Location = new Point(78, 70);
+            login_button.Name = "login_button";
+            login_button.Size = new Size(100, 23);
+            login_button.TabIndex = 5;
+            login_button.Text = "Login";
+            login_button.UseVisualStyleBackColor = true;
+            login_button.Click += login_button_Click;
+            // 
+            // password_input
+            // 
+            password_input.Location = new Point(78, 41);
+            password_input.Name = "password_input";
+            password_input.PasswordChar = 'ඞ';
+            password_input.Size = new Size(100, 23);
+            password_input.TabIndex = 4;
+            // 
+            // username_input
+            // 
+            username_input.Location = new Point(78, 12);
+            username_input.Name = "username_input";
+            username_input.Size = new Size(100, 23);
+            username_input.TabIndex = 3;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 41);
+            label2.Name = "label2";
+            label2.Size = new Size(57, 15);
+            label2.TabIndex = 2;
+            label2.Text = "Password";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(60, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Username";
             // 
             // hide_secret_button
             // 
@@ -94,6 +149,16 @@
             hide_secret_button.Text = "Hide";
             hide_secret_button.UseVisualStyleBackColor = true;
             hide_secret_button.Click += hide_secret_button_Click;
+            // 
+            // reset_login_button
+            // 
+            reset_login_button.Location = new Point(12, 157);
+            reset_login_button.Name = "reset_login_button";
+            reset_login_button.Size = new Size(75, 23);
+            reset_login_button.TabIndex = 6;
+            reset_login_button.Text = "Reset data";
+            reset_login_button.UseVisualStyleBackColor = true;
+            reset_login_button.Click += reset_login_button_Click;
             // 
             // Form1
             // 
@@ -111,6 +176,7 @@
             Text = "Time Evidence";
             KeyDown += Form1_KeyDown;
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -123,5 +189,11 @@
         private ProgressBar progressBar1;
         private Panel panel1;
         private Button hide_secret_button;
+        private Label label2;
+        private Label label1;
+        private Button login_button;
+        private TextBox password_input;
+        private TextBox username_input;
+        private Button reset_login_button;
     }
 }
