@@ -2,6 +2,7 @@ using MySqlConnector;
 using System;
 using Newtonsoft.Json;
 using System.IO;
+using System.Data;
 
 namespace TimeCalculator
 {
@@ -53,26 +54,37 @@ namespace TimeCalculator
             progressBar1.Maximum = 8 * 60 * 60;
             timer.Interval = 1000;
             timer.Tick += new EventHandler(timer1_Tick);
-
-            conn = new MySqlConnection("Server=172.25.254.125;User ID=root;Password=toor;Database=evidence");
+            update_progressbar();
+            conn = new MySqlConnection("Server=10.144.0.1;User ID=root;Password=toor;Database=evidence");
         }
         List<object[]> ExecuteCommandSync(MySqlConnection connection, string sqlCommand)
         {
             var results = new List<object[]>();
-            connection.Open();
-            using (var command = new MySqlCommand(sqlCommand, connection))
+            try
             {
-                using (var reader = command.ExecuteReader())
+                connection.Open();
+                using (var command = new MySqlCommand(sqlCommand, connection))
                 {
-                    while (reader.Read())
+                    using (var reader = command.ExecuteReader())
                     {
-                        var rowValues = new object[reader.FieldCount];
-                        reader.GetValues(rowValues);
-                        results.Add(rowValues);
+                        while (reader.Read())
+                        {
+                            var rowValues = new object[reader.FieldCount];
+                            reader.GetValues(rowValues);
+                            results.Add(rowValues);
+                        }
                     }
                 }
             }
-            connection.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Woopsie. Nie mo¿a po³¹czyæ siê z serverem, skontatuj siê z lokalnym informatykiem.");
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+            }
             return results;
         }
         public void PrintResults(List<object[]> results)
@@ -89,7 +101,7 @@ namespace TimeCalculator
         private void timer1_Tick(object sender, EventArgs e)
         {
             var totalElapsedSeconds = elapsed.TotalSeconds + (DateTime.Now - startTime).TotalSeconds;
-            if (totalElapsedSeconds >= progressBar1.Maximum)
+            if (progressBar1.Value >= progressBar1.Maximum)
             {
                 timer.Stop();
                 progressBar1.Value = progressBar1.Maximum;
@@ -97,8 +109,8 @@ namespace TimeCalculator
             }
             else
             {
-                progressBar1.Value = (int)totalElapsedSeconds;
-                var timeLeft = TimeSpan.FromSeconds(progressBar1.Maximum) - TimeSpan.FromSeconds(totalElapsedSeconds);
+                progressBar1.Value++;
+                var timeLeft = TimeSpan.FromSeconds(progressBar1.Maximum) - TimeSpan.FromSeconds(progressBar1.Value);
                 textBox1.Text = "Time left: " + timeLeft.ToString(@"hh\:mm\:ss");
             }
         }
@@ -113,6 +125,39 @@ namespace TimeCalculator
             {
                 textBox1.Text = "hewwo ^^";
                 panel1.Visible = true;
+            }
+        }
+        private void update_progressbar()
+        {
+            string[] files = Directory.GetFiles(fullDirectoryPath, "*.json");
+            DateTime earliestDate = DateTime.Now;
+            DateTime earliestDateCopy = earliestDate;
+            DateTime today = DateTime.Today;
+
+            foreach (string file in files)
+            {
+                FileInfo fileInfo = new FileInfo(file);
+                if (fileInfo.CreationTime.Date != today)
+                    continue;
+
+                string content = File.ReadAllText(file);
+                ActionData session = JsonConvert.DeserializeObject<ActionData>(content);
+                if (session.LoginTime != null)
+                {
+                    if (DateTime.Parse(session.LoginTime) < earliestDate)
+                    {
+                        earliestDate = DateTime.Parse(session.LoginTime);
+                    }
+                }
+            }
+            TimeSpan deltaTime = DateTime.Now - earliestDate;
+            double progressInSeconds = deltaTime.TotalSeconds;
+            progressBar1.Value = (int)progressInSeconds;
+            if (earliestDate != earliestDateCopy && user_id != -1)
+            {
+                timer.Start();
+                start_button.Enabled = false;
+                stop_button.Enabled = true;
             }
         }
 
@@ -174,6 +219,7 @@ namespace TimeCalculator
             {
                 var temp = res[0][0];
                 user_id = (int)temp;
+                start_button.Enabled = true;
                 ActionData data = new ActionData
                 {
                     UserID = temp.ToString(),
