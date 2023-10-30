@@ -152,12 +152,12 @@ namespace TimeCalculator
             }
             TimeSpan deltaTime = DateTime.Now - earliestDate;
             double progressInSeconds = deltaTime.TotalSeconds;
-            progressBar1.Value = (int)progressInSeconds;
             if (earliestDate != earliestDateCopy && user_id != -1)
             {
                 timer.Start();
                 start_button.Enabled = false;
                 stop_button.Enabled = true;
+                progressBar1.Value = (int)progressInSeconds;
             }
         }
 
@@ -172,7 +172,7 @@ namespace TimeCalculator
                 timer.Start();
                 start_button.Enabled = false;
                 stop_button.Enabled = true;
-                ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (1,\"" + formattedTime + "\")");
+                ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + user_id.ToString() + ",\"" + formattedTime + "\")");
                 ActionData data = new ActionData
                 {
                     UserID = user_id.ToString(),
