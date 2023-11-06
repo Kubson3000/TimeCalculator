@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCalculator", "TimeCalculator\TimeCalculator.csproj", "{C839A8F5-3E08-4BA2-8E47-E58539DC6342}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeCalculator", "TimeCalculator\TimeCalculator.csproj", "{C839A8F5-3E08-4BA2-8E47-E58539DC6342}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{9BD56756-8F49-4F89-A172-1C5181C71774}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{C839A8F5-3E08-4BA2-8E47-E58539DC6342}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C839A8F5-3E08-4BA2-8E47-E58539DC6342}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C839A8F5-3E08-4BA2-8E47-E58539DC6342}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD56756-8F49-4F89-A172-1C5181C71774}.Debug|Any CPU.ActiveCfg = Debug
+		{9BD56756-8F49-4F89-A172-1C5181C71774}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

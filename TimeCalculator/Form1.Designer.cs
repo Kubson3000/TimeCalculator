@@ -33,13 +33,14 @@
             textBox1 = new TextBox();
             progressBar1 = new ProgressBar();
             panel1 = new Panel();
+            reset_login_button = new Button();
             login_button = new Button();
             password_input = new TextBox();
             username_input = new TextBox();
             label2 = new Label();
             label1 = new Label();
             hide_secret_button = new Button();
-            reset_login_button = new Button();
+            show_dir_button = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             stop_button.Name = "stop_button";
             stop_button.Size = new Size(100, 100);
             stop_button.TabIndex = 1;
-            stop_button.Text = "Stop";
+            stop_button.Text = "Update\r\nLogout Time\r\n";
             stop_button.UseVisualStyleBackColor = true;
             stop_button.Click += stop_button_Click;
             // 
@@ -84,6 +85,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(show_dir_button);
             panel1.Controls.Add(reset_login_button);
             panel1.Controls.Add(login_button);
             panel1.Controls.Add(password_input);
@@ -96,6 +98,16 @@
             panel1.Size = new Size(236, 193);
             panel1.TabIndex = 4;
             panel1.Visible = false;
+            // 
+            // reset_login_button
+            // 
+            reset_login_button.Location = new Point(12, 157);
+            reset_login_button.Name = "reset_login_button";
+            reset_login_button.Size = new Size(75, 23);
+            reset_login_button.TabIndex = 6;
+            reset_login_button.Text = "Reset data";
+            reset_login_button.UseVisualStyleBackColor = true;
+            reset_login_button.Click += reset_login_button_Click;
             // 
             // login_button
             // 
@@ -150,15 +162,15 @@
             hide_secret_button.UseVisualStyleBackColor = true;
             hide_secret_button.Click += hide_secret_button_Click;
             // 
-            // reset_login_button
+            // show_dir_button
             // 
-            reset_login_button.Location = new Point(12, 157);
-            reset_login_button.Name = "reset_login_button";
-            reset_login_button.Size = new Size(75, 23);
-            reset_login_button.TabIndex = 6;
-            reset_login_button.Text = "Reset data";
-            reset_login_button.UseVisualStyleBackColor = true;
-            reset_login_button.Click += reset_login_button_Click;
+            show_dir_button.Location = new Point(12, 128);
+            show_dir_button.Name = "show_dir_button";
+            show_dir_button.Size = new Size(75, 23);
+            show_dir_button.TabIndex = 7;
+            show_dir_button.Text = "Show Dir";
+            show_dir_button.UseVisualStyleBackColor = true;
+            show_dir_button.Click += show_dir_button_Click;
             // 
             // Form1
             // 
@@ -195,5 +207,6 @@
         private TextBox password_input;
         private TextBox username_input;
         private Button reset_login_button;
+        private Button show_dir_button;
     }
 }

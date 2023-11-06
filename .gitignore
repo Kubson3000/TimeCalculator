@@ -9,6 +9,8 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.exe
+*.msi
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -361,3 +363,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/dotnet-sdk-6.0.416-win-x64.exe
+/ZeroTier One.msi
