@@ -3,6 +3,8 @@ using System;
 using Newtonsoft.Json;
 using System.IO;
 using System.Data;
+using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace TimeCalculator
 {
@@ -30,6 +32,7 @@ namespace TimeCalculator
                 Directory.CreateDirectory(fullDirectoryPath);
             }
             InitializeComponent();
+            this.FormClosed += update_logout_time;
             this.KeyPreview = true;
             string fullFilePath = Path.Combine(fullDirectoryPath, "conf.json");
 
@@ -56,6 +59,20 @@ namespace TimeCalculator
             timer.Tick += new EventHandler(timer1_Tick);
             update_progressbar();
             conn = new MySqlConnection("Server=10.144.0.1;User ID=root;Password=toor;Database=evidence");
+        }
+        void update_logout_time(object sender, FormClosedEventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
+            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")");
+            ActionData data = new ActionData
+            {
+                UserID = user_id.ToString(),
+                LogoutTime = formattedTime
+            };
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
+            File.WriteAllText(fullFilePath, json);
         }
         List<object[]> ExecuteCommandSync(MySqlConnection connection, string sqlCommand)
         {
@@ -105,7 +122,19 @@ namespace TimeCalculator
             {
                 timer.Stop();
                 progressBar1.Value = progressBar1.Maximum;
+                DateTime now = DateTime.Now;
+                string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
+                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")");
+                ActionData data = new ActionData
+                {
+                    UserID = user_id.ToString(),
+                    LogoutTime = formattedTime
+                };
+                string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
+                File.WriteAllText(fullFilePath, json);
                 textBox1.Text = "Work finnished :D";
+                MessageBox.Show("Work time has been saved and you can leave :)");
             }
             else
             {
@@ -160,7 +189,6 @@ namespace TimeCalculator
                 progressBar1.Value = (int)progressInSeconds;
             }
         }
-
         private void start_button_Click(object sender, EventArgs e)
         {
             if (DateTime.Now.TimeOfDay > min_time)
@@ -181,6 +209,34 @@ namespace TimeCalculator
                 string json = JsonConvert.SerializeObject(data, Formatting.Indented);
                 string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
                 File.WriteAllText(fullFilePath, json);
+                DateTime today = DateTime.Today;
+                string output = today.ToString("dd/MM/yyyy");
+                switch (DateTime.Now.DayOfWeek)
+                {
+                    case DayOfWeek.Monday:
+                        if ("06/11/2023" == output) break;
+                        Monday monday = new();
+                        monday.Show();
+                        break;
+                    case DayOfWeek.Tuesday:
+                        Jacek tuesday = new();
+                        tuesday.Show();
+                        break;
+                    case DayOfWeek.Wednesday:
+                        break;
+                    case DayOfWeek.Thursday:
+                        break;
+                    case DayOfWeek.Friday:
+                        Friday friday = new();
+                        friday.Show();
+                        break;
+                    case DayOfWeek.Saturday:
+                        break;
+                    case DayOfWeek.Sunday:
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
@@ -190,11 +246,11 @@ namespace TimeCalculator
 
         private void stop_button_Click(object sender, EventArgs e)
         {
-            timer.Stop();
+            //timer.Stop();
             elapsed += DateTime.Now - startTime;
             DateTime now = DateTime.Now;
             string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
-            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (1,\"" + formattedTime + "\")");
+            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")");
             ActionData data = new ActionData
             {
                 UserID = user_id.ToString(),
@@ -203,7 +259,7 @@ namespace TimeCalculator
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
             File.WriteAllText(fullFilePath, json);
-            start_button.Enabled = true;
+            //start_button.Enabled = true;
         }
 
         private void hide_secret_button_Click(object sender, EventArgs e)
@@ -227,6 +283,12 @@ namespace TimeCalculator
                 string json = JsonConvert.SerializeObject(data, Formatting.Indented);
                 string fullFilePath = Path.Combine(fullDirectoryPath, "conf.json");
                 File.WriteAllText(fullFilePath, json);
+                start_button.Enabled = true;
+                MessageBox.Show("Logged in :D");
+            }
+            else
+            {
+                MessageBox.Show("Invalid username or password");
             }
         }
 
@@ -238,6 +300,11 @@ namespace TimeCalculator
             {
                 File.Delete(fullFilePath);
             }
+        }
+
+        private void show_dir_button_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", fullDirectoryPath);
         }
     }
 }
