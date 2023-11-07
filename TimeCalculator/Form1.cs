@@ -5,6 +5,8 @@ using System.IO;
 using System.Data;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Octokit;
+using Microsoft.VisualBasic;
 
 namespace TimeCalculator
 {
@@ -73,6 +75,7 @@ namespace TimeCalculator
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
             File.WriteAllText(fullFilePath, json);
+            Process.Start("cscript", "\"run_hidden.vbs\"");
         }
         List<object[]> ExecuteCommandSync(MySqlConnection connection, string sqlCommand)
         {
@@ -138,6 +141,10 @@ namespace TimeCalculator
             }
             else
             {
+                if (progressBar1.Value % 3600 == 0)
+                {
+                    Task task = Task.Run(new Action(auto_sync_files));
+                }
                 progressBar1.Value++;
                 var timeLeft = TimeSpan.FromSeconds(progressBar1.Maximum) - TimeSpan.FromSeconds(progressBar1.Value);
                 textBox1.Text = "Time left: " + timeLeft.ToString(@"hh\:mm\:ss");
@@ -305,6 +312,16 @@ namespace TimeCalculator
         private void show_dir_button_Click(object sender, EventArgs e)
         {
             Process.Start("explorer.exe", fullDirectoryPath);
+        }
+        private void auto_sync_files()
+        {
+            FileSync j = new();
+            j.auto_sync();
+        }
+        private void sync_button_Click(object sender, EventArgs e)
+        {
+            FileSync j = new();
+            j.Show();
         }
     }
 }

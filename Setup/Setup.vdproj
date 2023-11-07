@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_10D8EE2D4C274D6FAAE6BA8BDD029005"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2821F861937E46D5AAB87811CBB57EC9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -22,6 +28,12 @@
         "Entry"
         {
         "MsmKey" = "8:_2C83DD61F86C4FBDA6768B5F633CB899"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_40FF35571B7F4716AFE99C89E04B6E2E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -134,6 +146,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_10D8EE2D4C274D6FAAE6BA8BDD029005"
+            {
+            "SourcePath" = "8:..\\TimeCalculator\\run_hidden.vbs"
+            "TargetName" = "8:run_hidden.vbs"
+            "Tag" = "8:"
+            "Folder" = "8:_AB0C4011F694469881298E3C121AC177"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2821F861937E46D5AAB87811CBB57EC9"
             {
             "SourcePath" = "8:..\\dotnet-sdk-6.0.416-win-x64.exe"
@@ -158,6 +190,26 @@
             {
             "SourcePath" = "8:..\\favicon.ico"
             "TargetName" = "8:favicon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_AB0C4011F694469881298E3C121AC177"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_40FF35571B7F4716AFE99C89E04B6E2E"
+            {
+            "SourcePath" = "8:..\\TimeCalculator\\update.bat"
+            "TargetName" = "8:update.bat"
             "Tag" = "8:"
             "Folder" = "8:_AB0C4011F694469881298E3C121AC177"
             "Condition" = "8:"
@@ -251,7 +303,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup"
         "ProductCode" = "8:{E7EE0665-3CA8-4F0D-9F17-A131FF1117DE}"
-        "PackageCode" = "8:{5024780B-FB99-46F1-B267-912389A0EC38}"
+        "PackageCode" = "8:{A2CB0CD9-E6FA-4070-834E-E2121D913AD0}"
         "UpgradeCode" = "8:{3D6A53B3-FB24-422B-8BAA-6262D6E98C29}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -786,7 +838,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EDC6CD08E1E9474CB2DC0F915BDB437A"
             {
-            "SourcePath" = "8:..\\TimeCalculator\\obj\\Release\\net6.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\TimeCalculator\\obj\\Debug\\net6.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AB0C4011F694469881298E3C121AC177"

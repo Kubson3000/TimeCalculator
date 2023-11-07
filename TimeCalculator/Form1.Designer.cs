@@ -33,6 +33,7 @@
             textBox1 = new TextBox();
             progressBar1 = new ProgressBar();
             panel1 = new Panel();
+            show_dir_button = new Button();
             reset_login_button = new Button();
             login_button = new Button();
             password_input = new TextBox();
@@ -40,7 +41,7 @@
             label2 = new Label();
             label1 = new Label();
             hide_secret_button = new Button();
-            show_dir_button = new Button();
+            sync_button = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -85,6 +86,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(sync_button);
             panel1.Controls.Add(show_dir_button);
             panel1.Controls.Add(reset_login_button);
             panel1.Controls.Add(login_button);
@@ -98,6 +100,16 @@
             panel1.Size = new Size(236, 193);
             panel1.TabIndex = 4;
             panel1.Visible = false;
+            // 
+            // show_dir_button
+            // 
+            show_dir_button.Location = new Point(12, 128);
+            show_dir_button.Name = "show_dir_button";
+            show_dir_button.Size = new Size(75, 23);
+            show_dir_button.TabIndex = 7;
+            show_dir_button.Text = "Show Dir";
+            show_dir_button.UseVisualStyleBackColor = true;
+            show_dir_button.Click += show_dir_button_Click;
             // 
             // reset_login_button
             // 
@@ -162,15 +174,15 @@
             hide_secret_button.UseVisualStyleBackColor = true;
             hide_secret_button.Click += hide_secret_button_Click;
             // 
-            // show_dir_button
+            // sync_button
             // 
-            show_dir_button.Location = new Point(12, 128);
-            show_dir_button.Name = "show_dir_button";
-            show_dir_button.Size = new Size(75, 23);
-            show_dir_button.TabIndex = 7;
-            show_dir_button.Text = "Show Dir";
-            show_dir_button.UseVisualStyleBackColor = true;
-            show_dir_button.Click += show_dir_button_Click;
+            sync_button.Location = new Point(12, 99);
+            sync_button.Name = "sync_button";
+            sync_button.Size = new Size(75, 23);
+            sync_button.TabIndex = 8;
+            sync_button.Text = "Open sync";
+            sync_button.UseVisualStyleBackColor = true;
+            sync_button.Click += sync_button_Click;
             // 
             // Form1
             // 
@@ -208,5 +220,6 @@
         private TextBox username_input;
         private Button reset_login_button;
         private Button show_dir_button;
+        private Button sync_button;
     }
 }
