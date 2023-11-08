@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Octokit;
 using Microsoft.VisualBasic;
+using System.Net.NetworkInformation;
 
 namespace TimeCalculator
 {
@@ -26,9 +27,12 @@ namespace TimeCalculator
         private TimeSpan elapsed = TimeSpan.Zero;
         TimeSpan min_time = new TimeSpan(7, 0, 0);
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        System.Windows.Forms.Timer sync_timer = new();
+        System.Windows.Forms.Timer ping_timer = new();
         int user_id = -1;
         public Form1()
         {
+            ping(null, null);
             if (!Directory.Exists(fullDirectoryPath))
             {
                 Directory.CreateDirectory(fullDirectoryPath);
@@ -51,6 +55,12 @@ namespace TimeCalculator
             }
             else
             {
+                sync_timer.Tick += new EventHandler(auto_sync_files);
+                sync_timer.Interval = 30 * 60 * 1000;
+                sync_timer.Start();
+                ping_timer.Tick += new EventHandler(ping);
+                ping_timer.Interval = 30 * 1000;
+                ping_timer.Start();
                 if (min_time <= DateTime.Now.TimeOfDay)
                 {
                     start_button.Enabled = true;
@@ -107,7 +117,7 @@ namespace TimeCalculator
             }
             return results;
         }
-        public void PrintResults(List<object[]> results)
+        private void PrintResults(List<object[]> results)
         {
             foreach (var row in results)
             {
@@ -141,10 +151,6 @@ namespace TimeCalculator
             }
             else
             {
-                if (progressBar1.Value % 3600 == 0)
-                {
-                    Task task = Task.Run(new Action(auto_sync_files));
-                }
                 progressBar1.Value++;
                 var timeLeft = TimeSpan.FromSeconds(progressBar1.Maximum) - TimeSpan.FromSeconds(progressBar1.Value);
                 textBox1.Text = "Time left: " + timeLeft.ToString(@"hh\:mm\:ss");
@@ -193,7 +199,25 @@ namespace TimeCalculator
                 timer.Start();
                 start_button.Enabled = false;
                 stop_button.Enabled = true;
-                progressBar1.Value = (int)progressInSeconds;
+                if ((int) progressInSeconds < progressBar1.Maximum)
+                {
+                    progressBar1.Value = (int)progressInSeconds;
+                }
+                else
+                {
+                    progressBar1.Value = progressBar1.Maximum-1
+                }
+            }
+        }
+        public void ping(object sender, EventArgs e)
+        {
+            Ping pingSender = new Ping();
+            string server = "10.144.0.1";
+            int numberOfPings = 10;
+
+            for (int i = 0; i < numberOfPings; i++)
+            {
+                PingReply reply = pingSender.Send(server);
             }
         }
         private void start_button_Click(object sender, EventArgs e)
@@ -207,7 +231,11 @@ namespace TimeCalculator
                 timer.Start();
                 start_button.Enabled = false;
                 stop_button.Enabled = true;
-                ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + user_id.ToString() + ",\"" + formattedTime + "\")");
+                Thread newThread = new Thread(() =>
+                {
+                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + user_id + ",\"" + formattedTime + "\")");
+                });
+                newThread.Start();
                 ActionData data = new ActionData
                 {
                     UserID = user_id.ToString(),
@@ -253,11 +281,14 @@ namespace TimeCalculator
 
         private void stop_button_Click(object sender, EventArgs e)
         {
-            //timer.Stop();
             elapsed += DateTime.Now - startTime;
             DateTime now = DateTime.Now;
             string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
-            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")");
+            Thread newThread = new Thread(() =>
+            {
+                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")");
+            });
+            newThread.Start();
             ActionData data = new ActionData
             {
                 UserID = user_id.ToString(),
@@ -266,7 +297,6 @@ namespace TimeCalculator
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
             File.WriteAllText(fullFilePath, json);
-            //start_button.Enabled = true;
         }
 
         private void hide_secret_button_Click(object sender, EventArgs e)
@@ -313,14 +343,63 @@ namespace TimeCalculator
         {
             Process.Start("explorer.exe", fullDirectoryPath);
         }
-        private void auto_sync_files()
+        private void auto_sync_files(object sender, EventArgs e)
         {
-            FileSync j = new();
-            j.auto_sync();
+            Thread newThread = new Thread(() =>
+            {
+                ActionData get_from_file(string path)
+                {
+                    string json = File.ReadAllText(path);
+                    ActionData data = JsonConvert.DeserializeObject<ActionData>(json);
+                    return data;
+                }
+                bool already_uploaded(ActionData ad)
+                {
+                    string sql = "SELECT * FROM useractivity WHERE UserID = " + ad.UserID + " AND(LoginTime = \"" + ad.LoginTime + "\" OR LogoutTime = \"" + ad.LogoutTime + "\") AND(LoginTime IS NULL OR LogoutTime IS NULL)";
+                    List<object[]> sql_response = ExecuteCommandSync(conn, sql);
+                    if (sql_response.Count > 0) return true;
+                    return false;
+                }
+                List<FileInfo> files = new();
+                DirectoryInfo dir = new DirectoryInfo(fullDirectoryPath);
+                foreach (FileInfo file in dir.GetFiles())
+                {
+                    if (file.Name.Equals("conf.json")) continue;
+                    files.Add(file);
+                }
+                for (int i = 0; i < files.Count; i++)
+                {
+                    ActionData data = get_from_file(files[i].FullName);
+                    if (already_uploaded(data)) continue;
+                    if (data.LoginTime != null)
+                    {
+                        Thread newThread = new Thread(() =>
+                        {
+                            ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + data.UserID + ",\"" + data.LoginTime + "\")");
+                        });
+                        newThread.Start();
+                    }
+                    else
+                    {
+                        Thread newThread = new Thread(() =>
+                        {
+                            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + data.UserID + ",\"" + data.LogoutTime + "\")");
+                        });
+                        newThread.Start();
+                    }
+                }
+            });
+            newThread.Start();
         }
         private void sync_button_Click(object sender, EventArgs e)
         {
             FileSync j = new();
+            j.Show();
+        }
+
+        private void open_ping_button_Click(object sender, EventArgs e)
+        {
+            Pinger j = new Pinger();
             j.Show();
         }
     }

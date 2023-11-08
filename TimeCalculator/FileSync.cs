@@ -30,9 +30,7 @@ namespace TimeCalculator
             conn = new MySqlConnection("Server=10.144.0.1;User ID=root;Password=toor;Database=evidence");
             InitializeComponent();
             get_files();
-            {
-                progressBar1.Minimum = 0;
-            }
+            progressBar1.Minimum = 0;
         }
 
         private void get_files()
@@ -73,7 +71,7 @@ namespace TimeCalculator
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Woopsie. Nie moża połączyć się z serverem, skontatuj się z lokalnym informatykiem.");
+                //MessageBox.Show("Woopsie. Nie moża połączyć się z serverem, skontatuj się z lokalnym informatykiem.");
             }
             finally
             {
@@ -107,11 +105,19 @@ namespace TimeCalculator
                 textBox1.Text = "Uploading: " + filesCreatedToday[i].Name;
                 if (data.LoginTime != null)
                 {
-                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + data.UserID + ",\"" + data.LoginTime + "\")");
+                    Thread newThread = new Thread(() =>
+                    {
+                        ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + data.UserID + ",\"" + data.LoginTime + "\")");
+                    });
+                    newThread.Start();
                 }
                 else
                 {
-                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + data.UserID + ",\"" + data.LogoutTime + "\")");
+                    Thread newThread = new Thread(() =>
+                    {
+                        ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + data.UserID + ",\"" + data.LogoutTime + "\")");
+                    });
+                    newThread.Start();
                 }
             }
             progressBar1.Value = progressBar1.Maximum;
@@ -131,11 +137,19 @@ namespace TimeCalculator
                 textBox1.Text = "Uploading: " + files[i].Name;
                 if (data.LoginTime != null)
                 {
-                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + data.UserID + ",\"" + data.LoginTime + "\")");
+                    Thread newThread = new Thread(() =>
+                    {
+                        ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + data.UserID + ",\"" + data.LoginTime + "\")");
+                    });
+                    newThread.Start();
                 }
                 else
                 {
-                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + data.UserID + ",\"" + data.LogoutTime + "\")");
+                    Thread newThread = new Thread(() =>
+                    {
+                        ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + data.UserID + ",\"" + data.LogoutTime + "\")");
+                    });
+                    newThread.Start();
                 }
             }
             progressBar1.Value = progressBar1.Maximum;

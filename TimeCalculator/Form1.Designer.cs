@@ -33,6 +33,7 @@
             textBox1 = new TextBox();
             progressBar1 = new ProgressBar();
             panel1 = new Panel();
+            sync_button = new Button();
             show_dir_button = new Button();
             reset_login_button = new Button();
             login_button = new Button();
@@ -41,7 +42,7 @@
             label2 = new Label();
             label1 = new Label();
             hide_secret_button = new Button();
-            sync_button = new Button();
+            open_ping_button = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -86,6 +87,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(open_ping_button);
             panel1.Controls.Add(sync_button);
             panel1.Controls.Add(show_dir_button);
             panel1.Controls.Add(reset_login_button);
@@ -101,9 +103,19 @@
             panel1.TabIndex = 4;
             panel1.Visible = false;
             // 
+            // sync_button
+            // 
+            sync_button.Location = new Point(158, 167);
+            sync_button.Name = "sync_button";
+            sync_button.Size = new Size(75, 23);
+            sync_button.TabIndex = 8;
+            sync_button.Text = "Open sync";
+            sync_button.UseVisualStyleBackColor = true;
+            sync_button.Click += sync_button_Click;
+            // 
             // show_dir_button
             // 
-            show_dir_button.Location = new Point(12, 128);
+            show_dir_button.Location = new Point(3, 138);
             show_dir_button.Name = "show_dir_button";
             show_dir_button.Size = new Size(75, 23);
             show_dir_button.TabIndex = 7;
@@ -113,7 +125,7 @@
             // 
             // reset_login_button
             // 
-            reset_login_button.Location = new Point(12, 157);
+            reset_login_button.Location = new Point(3, 167);
             reset_login_button.Name = "reset_login_button";
             reset_login_button.Size = new Size(75, 23);
             reset_login_button.TabIndex = 6;
@@ -123,9 +135,9 @@
             // 
             // login_button
             // 
-            login_button.Location = new Point(78, 70);
+            login_button.Location = new Point(175, 41);
             login_button.Name = "login_button";
-            login_button.Size = new Size(100, 23);
+            login_button.Size = new Size(58, 23);
             login_button.TabIndex = 5;
             login_button.Text = "Login";
             login_button.UseVisualStyleBackColor = true;
@@ -133,7 +145,7 @@
             // 
             // password_input
             // 
-            password_input.Location = new Point(78, 41);
+            password_input.Location = new Point(69, 41);
             password_input.Name = "password_input";
             password_input.PasswordChar = 'ඞ';
             password_input.Size = new Size(100, 23);
@@ -141,7 +153,7 @@
             // 
             // username_input
             // 
-            username_input.Location = new Point(78, 12);
+            username_input.Location = new Point(69, 12);
             username_input.Name = "username_input";
             username_input.Size = new Size(100, 23);
             username_input.TabIndex = 3;
@@ -149,7 +161,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 41);
+            label2.Location = new Point(3, 41);
             label2.Name = "label2";
             label2.Size = new Size(57, 15);
             label2.TabIndex = 2;
@@ -158,7 +170,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 15);
+            label1.Location = new Point(3, 15);
             label1.Name = "label1";
             label1.Size = new Size(60, 15);
             label1.TabIndex = 1;
@@ -166,23 +178,23 @@
             // 
             // hide_secret_button
             // 
-            hide_secret_button.Location = new Point(147, 157);
+            hide_secret_button.Location = new Point(175, 12);
             hide_secret_button.Name = "hide_secret_button";
-            hide_secret_button.Size = new Size(75, 23);
+            hide_secret_button.Size = new Size(58, 23);
             hide_secret_button.TabIndex = 0;
             hide_secret_button.Text = "Hide";
             hide_secret_button.UseVisualStyleBackColor = true;
             hide_secret_button.Click += hide_secret_button_Click;
             // 
-            // sync_button
+            // open_ping_button
             // 
-            sync_button.Location = new Point(12, 99);
-            sync_button.Name = "sync_button";
-            sync_button.Size = new Size(75, 23);
-            sync_button.TabIndex = 8;
-            sync_button.Text = "Open sync";
-            sync_button.UseVisualStyleBackColor = true;
-            sync_button.Click += sync_button_Click;
+            open_ping_button.Location = new Point(158, 138);
+            open_ping_button.Name = "open_ping_button";
+            open_ping_button.Size = new Size(75, 23);
+            open_ping_button.TabIndex = 9;
+            open_ping_button.Text = "Open ping";
+            open_ping_button.UseVisualStyleBackColor = true;
+            open_ping_button.Click += open_ping_button_Click;
             // 
             // Form1
             // 
@@ -221,5 +233,6 @@
         private Button reset_login_button;
         private Button show_dir_button;
         private Button sync_button;
+        private Button open_ping_button;
     }
 }
