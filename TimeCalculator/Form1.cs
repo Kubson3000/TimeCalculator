@@ -205,19 +205,8 @@ namespace TimeCalculator
                 }
                 else
                 {
-                    progressBar1.Value = progressBar1.Maximum-1
+                    progressBar1.Value = progressBar1.Maximum - 1;
                 }
-            }
-        }
-        public void ping(object sender, EventArgs e)
-        {
-            Ping pingSender = new Ping();
-            string server = "10.144.0.1";
-            int numberOfPings = 10;
-
-            for (int i = 0; i < numberOfPings; i++)
-            {
-                PingReply reply = pingSender.Send(server);
             }
         }
         public void ping(object sender, EventArgs e)
