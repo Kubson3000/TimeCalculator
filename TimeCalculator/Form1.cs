@@ -220,6 +220,17 @@ namespace TimeCalculator
                 PingReply reply = pingSender.Send(server);
             }
         }
+        public void ping(object sender, EventArgs e)
+        {
+            Ping pingSender = new Ping();
+            string server = "10.144.0.1";
+            int numberOfPings = 10;
+
+            for (int i = 0; i < numberOfPings; i++)
+            {
+                PingReply reply = pingSender.Send(server);
+            }
+        }
         private void start_button_Click(object sender, EventArgs e)
         {
             if (DateTime.Now.TimeOfDay > min_time)
