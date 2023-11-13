@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D453A744FF78435B8297E42E1F69612F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E5A9254685C140B5989DEACFD839834B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -46,6 +52,12 @@
         "Entry"
         {
         "MsmKey" = "8:_EDC6CD08E1E9474CB2DC0F915BDB437A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FF58F28B10D4487AB8C07AF512CB8474"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -226,10 +238,50 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D453A744FF78435B8297E42E1F69612F"
+            {
+            "SourcePath" = "8:C:\\Program Files (x86)\\Time_Calculator\\update.ps1"
+            "TargetName" = "8:update.ps1"
+            "Tag" = "8:"
+            "Folder" = "8:_AB0C4011F694469881298E3C121AC177"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E5A9254685C140B5989DEACFD839834B"
             {
             "SourcePath" = "8:..\\ZeroTier One.msi"
             "TargetName" = "8:ZeroTier One.msi"
+            "Tag" = "8:"
+            "Folder" = "8:_AB0C4011F694469881298E3C121AC177"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FF58F28B10D4487AB8C07AF512CB8474"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\OneDrive - kwiatyciete\\Pulpit\\Time Calculator Updater.xml"
+            "TargetName" = "8:Time Calculator Updater.xml"
             "Tag" = "8:"
             "Folder" = "8:_AB0C4011F694469881298E3C121AC177"
             "Condition" = "8:"

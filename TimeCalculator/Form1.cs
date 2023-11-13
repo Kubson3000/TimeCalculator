@@ -85,7 +85,7 @@ namespace TimeCalculator
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
             File.WriteAllText(fullFilePath, json);
-            Process.Start("cscript", "\"run_hidden.vbs\"");
+            //Process.Start("cscript", "\"run_hidden.vbs\"");
         }
         List<object[]> ExecuteCommandSync(MySqlConnection connection, string sqlCommand)
         {
