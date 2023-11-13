@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             start_button = new Button();
             stop_button = new Button();
             textBox1 = new TextBox();
             progressBar1 = new ProgressBar();
             panel1 = new Panel();
+            open_ping_button = new Button();
             sync_button = new Button();
             show_dir_button = new Button();
             reset_login_button = new Button();
@@ -42,7 +44,6 @@
             label2 = new Label();
             label1 = new Label();
             hide_secret_button = new Button();
-            open_ping_button = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -103,11 +104,21 @@
             panel1.TabIndex = 4;
             panel1.Visible = false;
             // 
+            // open_ping_button
+            // 
+            open_ping_button.Location = new Point(153, 138);
+            open_ping_button.Name = "open_ping_button";
+            open_ping_button.Size = new Size(80, 23);
+            open_ping_button.TabIndex = 9;
+            open_ping_button.Text = "Open ping";
+            open_ping_button.UseVisualStyleBackColor = true;
+            open_ping_button.Click += open_ping_button_Click;
+            // 
             // sync_button
             // 
-            sync_button.Location = new Point(158, 167);
+            sync_button.Location = new Point(153, 167);
             sync_button.Name = "sync_button";
-            sync_button.Size = new Size(75, 23);
+            sync_button.Size = new Size(80, 23);
             sync_button.TabIndex = 8;
             sync_button.Text = "Open sync";
             sync_button.UseVisualStyleBackColor = true;
@@ -117,7 +128,7 @@
             // 
             show_dir_button.Location = new Point(3, 138);
             show_dir_button.Name = "show_dir_button";
-            show_dir_button.Size = new Size(75, 23);
+            show_dir_button.Size = new Size(80, 23);
             show_dir_button.TabIndex = 7;
             show_dir_button.Text = "Show Dir";
             show_dir_button.UseVisualStyleBackColor = true;
@@ -127,7 +138,7 @@
             // 
             reset_login_button.Location = new Point(3, 167);
             reset_login_button.Name = "reset_login_button";
-            reset_login_button.Size = new Size(75, 23);
+            reset_login_button.Size = new Size(80, 23);
             reset_login_button.TabIndex = 6;
             reset_login_button.Text = "Reset data";
             reset_login_button.UseVisualStyleBackColor = true;
@@ -186,16 +197,6 @@
             hide_secret_button.UseVisualStyleBackColor = true;
             hide_secret_button.Click += hide_secret_button_Click;
             // 
-            // open_ping_button
-            // 
-            open_ping_button.Location = new Point(158, 138);
-            open_ping_button.Name = "open_ping_button";
-            open_ping_button.Size = new Size(75, 23);
-            open_ping_button.TabIndex = 9;
-            open_ping_button.Text = "Open ping";
-            open_ping_button.UseVisualStyleBackColor = true;
-            open_ping_button.Click += open_ping_button_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -207,6 +208,7 @@
             Controls.Add(stop_button);
             Controls.Add(start_button);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Form1";
             Text = "Time Evidence";

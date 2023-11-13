@@ -199,7 +199,7 @@ namespace TimeCalculator
                 timer.Start();
                 start_button.Enabled = false;
                 stop_button.Enabled = true;
-                if ((int) progressInSeconds < progressBar1.Maximum)
+                if ((int)progressInSeconds < progressBar1.Maximum)
                 {
                     progressBar1.Value = (int)progressInSeconds;
                 }
