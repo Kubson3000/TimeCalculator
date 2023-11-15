@@ -19,6 +19,11 @@ namespace TimeCalculator
             public string LoginTime { get; set; }
             public string LogoutTime { get; set; }
         }
+        public class Configuration
+        {
+            public string UserID { get; set; }
+            public bool memesEnabled { get; set; }
+        }
         private string input = string.Empty;
         private string secret = "SECRET";
         string fullDirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Timer");
@@ -30,6 +35,7 @@ namespace TimeCalculator
         System.Windows.Forms.Timer sync_timer = new();
         System.Windows.Forms.Timer ping_timer = new();
         int user_id = -1;
+        Configuration conf = new();
         public Form1()
         {
             ping(null, null);
@@ -45,8 +51,15 @@ namespace TimeCalculator
             if (File.Exists(fullFilePath))
             {
                 string json = File.ReadAllText(fullFilePath);
-                ActionData data = JsonConvert.DeserializeObject<ActionData>(json);
+                Configuration data = JsonConvert.DeserializeObject<Configuration>(json);
                 user_id = int.Parse(data.UserID);
+                conf.UserID = data.UserID;
+                if (data.memesEnabled == null)
+                {
+                    conf.memesEnabled = false;
+                    memes_checkbox.Enabled = false;
+                }
+                else if (data.memesEnabled == true) memes_checkbox.Checked = true;
             }
             if (user_id == -1)
             {
@@ -130,6 +143,18 @@ namespace TimeCalculator
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
+            void resync()
+            {
+                if (progressBar1.Value > 25000) return;
+                if (progressBar1.Value % 1000 != 0) return;
+                var directory = new DirectoryInfo(fullDirectoryPath);
+                var earliest_file = directory.GetFiles("*.json").OrderBy(f => f.CreationTime).FirstOrDefault();
+                if (earliest_file == null) return;
+                var time_diff = DateTime.Now - earliest_file.CreationTime;
+                if (time_diff.TotalSeconds > progressBar1.Maximum) return;
+                progressBar1.Value = ((int)time_diff.TotalSeconds);
+
+            }
             var totalElapsedSeconds = elapsed.TotalSeconds + (DateTime.Now - startTime).TotalSeconds;
             if (progressBar1.Value >= progressBar1.Maximum)
             {
@@ -152,6 +177,7 @@ namespace TimeCalculator
             else
             {
                 progressBar1.Value++;
+                resync();
                 var timeLeft = TimeSpan.FromSeconds(progressBar1.Maximum) - TimeSpan.FromSeconds(progressBar1.Value);
                 textBox1.Text = "Time left: " + timeLeft.ToString(@"hh\:mm\:ss");
             }
@@ -217,11 +243,44 @@ namespace TimeCalculator
 
             for (int i = 0; i < numberOfPings; i++)
             {
-                PingReply reply = pingSender.Send(server);
+                pingSender.Send(server);
             }
         }
         private void start_button_Click(object sender, EventArgs e)
         {
+            void memez()
+            {
+                if (!conf.memesEnabled) return;
+                switch (DateTime.Now.DayOfWeek)
+                {
+                    case DayOfWeek.Monday:
+                        Monday monday = new();
+                        monday.Show();
+                        break;
+                    case DayOfWeek.Tuesday:
+                        Jacek tuesday = new();
+                        tuesday.Show();
+                        break;
+                    case DayOfWeek.Wednesday:
+                        Wednesday wednesday = new();
+                        wednesday.Show();
+                        break;
+                    case DayOfWeek.Thursday:
+                        Thursday thursday = new();
+                        thursday.Show();
+                        break;
+                    case DayOfWeek.Friday:
+                        Friday friday = new();
+                        friday.Show();
+                        break;
+                    case DayOfWeek.Saturday:
+                        break;
+                    case DayOfWeek.Sunday:
+                        break;
+                    default:
+                        break;
+                }
+            }
             if (DateTime.Now.TimeOfDay > min_time)
             {
                 textBox1.Text = ("Zaczêto odliczaæ czas :)");
@@ -244,34 +303,7 @@ namespace TimeCalculator
                 string json = JsonConvert.SerializeObject(data, Formatting.Indented);
                 string fullFilePath = Path.Combine(fullDirectoryPath, formattedTime.Replace(":", ".") + ".json");
                 File.WriteAllText(fullFilePath, json);
-                DateTime today = DateTime.Today;
-                string output = today.ToString("dd/MM/yyyy");
-                switch (DateTime.Now.DayOfWeek)
-                {
-                    case DayOfWeek.Monday:
-                        if ("06/11/2023" == output) break;
-                        Monday monday = new();
-                        monday.Show();
-                        break;
-                    case DayOfWeek.Tuesday:
-                        Jacek tuesday = new();
-                        tuesday.Show();
-                        break;
-                    case DayOfWeek.Wednesday:
-                        break;
-                    case DayOfWeek.Thursday:
-                        break;
-                    case DayOfWeek.Friday:
-                        Friday friday = new();
-                        friday.Show();
-                        break;
-                    case DayOfWeek.Saturday:
-                        break;
-                    case DayOfWeek.Sunday:
-                        break;
-                    default:
-                        break;
-                }
+                memez();
             }
             else
             {
@@ -313,9 +345,11 @@ namespace TimeCalculator
                 var temp = res[0][0];
                 user_id = (int)temp;
                 start_button.Enabled = true;
+                conf.UserID = temp.ToString();
                 ActionData data = new ActionData
                 {
-                    UserID = temp.ToString(),
+                    UserID = temp.ToString()
+                    
                 };
                 string json = JsonConvert.SerializeObject(data, Formatting.Indented);
                 string fullFilePath = Path.Combine(fullDirectoryPath, "conf.json");
@@ -391,6 +425,7 @@ namespace TimeCalculator
             });
             newThread.Start();
         }
+
         private void sync_button_Click(object sender, EventArgs e)
         {
             FileSync j = new();
@@ -401,6 +436,14 @@ namespace TimeCalculator
         {
             Pinger j = new Pinger();
             j.Show();
+        }
+
+        private void memes_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (conf.memesEnabled) conf.memesEnabled = false;
+            else conf.memesEnabled = true;
+            string json = JsonConvert.SerializeObject(conf, Formatting.Indented);
+            File.WriteAllText(fullDirectoryPath + "/conf.json", json);
         }
     }
 }

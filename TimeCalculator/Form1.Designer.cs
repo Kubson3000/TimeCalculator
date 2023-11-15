@@ -44,6 +44,7 @@
             label2 = new Label();
             label1 = new Label();
             hide_secret_button = new Button();
+            memes_checkbox = new CheckBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -88,6 +89,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(memes_checkbox);
             panel1.Controls.Add(open_ping_button);
             panel1.Controls.Add(sync_button);
             panel1.Controls.Add(show_dir_button);
@@ -197,6 +199,17 @@
             hide_secret_button.UseVisualStyleBackColor = true;
             hide_secret_button.Click += hide_secret_button_Click;
             // 
+            // memes_checkbox
+            // 
+            memes_checkbox.AutoSize = true;
+            memes_checkbox.Location = new Point(3, 113);
+            memes_checkbox.Name = "memes_checkbox";
+            memes_checkbox.Size = new Size(71, 19);
+            memes_checkbox.TabIndex = 10;
+            memes_checkbox.Text = "MEMES?";
+            memes_checkbox.UseVisualStyleBackColor = true;
+            memes_checkbox.CheckedChanged += memes_checkbox_CheckedChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -236,5 +249,6 @@
         private Button show_dir_button;
         private Button sync_button;
         private Button open_ping_button;
+        private CheckBox memes_checkbox;
     }
 }
