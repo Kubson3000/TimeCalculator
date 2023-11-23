@@ -281,6 +281,11 @@ namespace TimeCalculator
                         break;
                 }
             }
+            if (user_id == -1)
+            {
+                MessageBox.Show("Nie wiem jak to zrobi³eœ/aœ ale OK, zawo³aj KUBA1 i nie zamykaj tego okienka!");
+                return;
+            }
             if (DateTime.Now.TimeOfDay > min_time)
             {
                 textBox1.Text = ("Zaczêto odliczaæ czas :)");
