@@ -121,7 +121,10 @@ namespace TimeCalculator
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Woopsie. Nie mo¿a po³¹czyæ siê z serverem, skontatuj siê z lokalnym informatykiem.");
+                if (error > 0)
+                {
+                    MessageBox.Show("Woopsie. Nie mo¿a po³¹czyæ siê z serverem, skontatuj siê z lokalnym informatykiem.");
+                }
             }
             finally
             {
