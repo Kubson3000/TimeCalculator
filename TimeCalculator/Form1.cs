@@ -89,7 +89,7 @@ namespace TimeCalculator
         {
             DateTime now = DateTime.Now;
             string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
-            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")");
+            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 1);
             ActionData data = new ActionData
             {
                 UserID = user_id.ToString(),
@@ -100,7 +100,7 @@ namespace TimeCalculator
             File.WriteAllText(fullFilePath, json);
             //Process.Start("cscript", "\"run_hidden.vbs\"");
         }
-        List<object[]> ExecuteCommandSync(MySqlConnection connection, string sqlCommand)
+        List<object[]> ExecuteCommandSync(MySqlConnection connection, string sqlCommand, int error)
         {
             var results = new List<object[]>();
             try
@@ -162,7 +162,7 @@ namespace TimeCalculator
                 progressBar1.Value = progressBar1.Maximum;
                 DateTime now = DateTime.Now;
                 string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
-                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")");
+                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 1);
                 ActionData data = new ActionData
                 {
                     UserID = user_id.ToString(),
@@ -297,7 +297,7 @@ namespace TimeCalculator
                 stop_button.Enabled = true;
                 Thread newThread = new Thread(() =>
                 {
-                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + user_id + ",\"" + formattedTime + "\")");
+                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + user_id + ",\"" + formattedTime + "\")", 1);
                 });
                 newThread.Start();
                 ActionData data = new ActionData
@@ -323,7 +323,7 @@ namespace TimeCalculator
             string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
             Thread newThread = new Thread(() =>
             {
-                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")");
+                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 1);
             });
             newThread.Start();
             ActionData data = new ActionData
@@ -344,7 +344,7 @@ namespace TimeCalculator
         private void login_button_Click(object sender, EventArgs e)
         {
             string sql = "SELECT UserID AS \"exists\" FROM users WHERE Username = \"" + username_input.Text + "\" AND `Password` = \"" + password_input.Text + "\"";
-            List<Object[]> res = ExecuteCommandSync(conn, sql);
+            List<Object[]> res = ExecuteCommandSync(conn, sql, 1);
             if (res.Count > 0)
             {
                 var temp = res[0][0];
@@ -395,7 +395,7 @@ namespace TimeCalculator
                 bool already_uploaded(ActionData ad)
                 {
                     string sql = "SELECT * FROM useractivity WHERE UserID = " + ad.UserID + " AND(LoginTime = \"" + ad.LoginTime + "\" OR LogoutTime = \"" + ad.LogoutTime + "\") AND(LoginTime IS NULL OR LogoutTime IS NULL)";
-                    List<object[]> sql_response = ExecuteCommandSync(conn, sql);
+                    List<object[]> sql_response = ExecuteCommandSync(conn, sql, 0);
                     if (sql_response.Count > 0) return true;
                     return false;
                 }
@@ -414,7 +414,7 @@ namespace TimeCalculator
                     {
                         Thread newThread = new Thread(() =>
                         {
-                            ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + data.UserID + ",\"" + data.LoginTime + "\")");
+                            ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + data.UserID + ",\"" + data.LoginTime + "\")", 0);
                         });
                         newThread.Start();
                     }
@@ -422,7 +422,7 @@ namespace TimeCalculator
                     {
                         Thread newThread = new Thread(() =>
                         {
-                            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + data.UserID + ",\"" + data.LogoutTime + "\")");
+                            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + data.UserID + ",\"" + data.LogoutTime + "\")", 0);
                         });
                         newThread.Start();
                     }
