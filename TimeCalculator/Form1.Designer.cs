@@ -34,6 +34,7 @@
             textBox1 = new TextBox();
             progressBar1 = new ProgressBar();
             panel1 = new Panel();
+            version_label = new Label();
             memes_checkbox = new CheckBox();
             open_ping_button = new Button();
             sync_button = new Button();
@@ -45,7 +46,6 @@
             label2 = new Label();
             label1 = new Label();
             hide_secret_button = new Button();
-            version_label = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -107,6 +107,15 @@
             panel1.Size = new Size(236, 193);
             panel1.TabIndex = 4;
             panel1.Visible = false;
+            // 
+            // version_label
+            // 
+            version_label.AutoSize = true;
+            version_label.Location = new Point(175, 117);
+            version_label.Name = "version_label";
+            version_label.Size = new Size(37, 15);
+            version_label.TabIndex = 11;
+            version_label.Text = "v1.1.9";
             // 
             // memes_checkbox
             // 
@@ -211,15 +220,6 @@
             hide_secret_button.Text = "Hide";
             hide_secret_button.UseVisualStyleBackColor = true;
             hide_secret_button.Click += hide_secret_button_Click;
-            // 
-            // version_label
-            // 
-            version_label.AutoSize = true;
-            version_label.Location = new Point(175, 117);
-            version_label.Name = "version_label";
-            version_label.Size = new Size(37, 15);
-            version_label.TabIndex = 11;
-            version_label.Text = "v1.1.8";
             // 
             // Form1
             // 
