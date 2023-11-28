@@ -150,6 +150,7 @@ namespace TimeCalculator
             {
                 if (progressBar1.Value > 25000) return;
                 if (progressBar1.Value % 1000 != 0) return;
+                if (progressBar1.Value % 600 == 0) stop_button.PerformClick();
                 var directory = new DirectoryInfo(fullDirectoryPath);
                 var earliest_file = directory.GetFiles("*.json").OrderBy(f => f.CreationTime).FirstOrDefault();
                 if (earliest_file == null) return;
