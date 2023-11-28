@@ -115,7 +115,7 @@
             version_label.Name = "version_label";
             version_label.Size = new Size(37, 15);
             version_label.TabIndex = 11;
-            version_label.Text = "v1.1.9";
+            version_label.Text = "v1.2.0";
             // 
             // memes_checkbox
             // 
