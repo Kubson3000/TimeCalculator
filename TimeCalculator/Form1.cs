@@ -357,7 +357,7 @@ namespace TimeCalculator
                 ActionData data = new ActionData
                 {
                     UserID = temp.ToString()
-                    
+
                 };
                 string json = JsonConvert.SerializeObject(data, Formatting.Indented);
                 string fullFilePath = Path.Combine(fullDirectoryPath, "conf.json");
