@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Pinger));
             textBox1 = new TextBox();
             ping_button = new Button();
             SuspendLayout();
@@ -60,6 +61,8 @@
             Controls.Add(ping_button);
             Controls.Add(textBox1);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Pinger";
             Text = "Pinger";
             ResumeLayout(false);

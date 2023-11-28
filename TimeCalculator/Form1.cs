@@ -322,7 +322,7 @@ namespace TimeCalculator
 
         private void stop_button_Click(object sender, EventArgs e)
         {
-            elapsed += DateTime.Now - startTime;
+            //elapsed += DateTime.Now - startTime;
             DateTime now = DateTime.Now;
             string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
             Thread newThread = new Thread(() =>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileSync));
             textBox1 = new TextBox();
             progressBar1 = new ProgressBar();
             today_button = new Button();
@@ -81,6 +82,8 @@
             Controls.Add(progressBar1);
             Controls.Add(textBox1);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "FileSync";
             Text = "FileSync";
             ResumeLayout(false);

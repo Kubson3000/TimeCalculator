@@ -50,6 +50,8 @@
             ClientSize = new Size(613, 341);
             Controls.Add(pictureBox1);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Thursday";
             Text = "Thursday";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
