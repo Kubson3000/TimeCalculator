@@ -1,3 +1,4 @@
+// # Copyright (C) 2023 Jakub MoÅ„ka
 using MySqlConnector;
 using System;
 using Newtonsoft.Json;
@@ -123,7 +124,7 @@ namespace TimeCalculator
             {
                 if (error > 0)
                 {
-                    MessageBox.Show("Woopsie. Nie mo¿a po³¹czyæ siê z serverem, skontatuj siê z lokalnym informatykiem.");
+                    MessageBox.Show("Woopsie. Nie moÂ¿a poÂ³Â¹czyÃ¦ siÃª z serverem, skontatuj siÃª z lokalnym informatykiem.");
                 }
             }
             finally
@@ -287,12 +288,12 @@ namespace TimeCalculator
             }
             if (user_id == -1)
             {
-                MessageBox.Show("Nie wiem jak to zrobi³eœ/aœ ale OK, zawo³aj KUBA1 i nie zamykaj tego okienka!");
+                MessageBox.Show("Nie wiem jak to zrobiÂ³eÂœ/aÂœ ale OK, zawoÂ³aj KUBA1 i nie zamykaj tego okienka!");
                 return;
             }
             if (DateTime.Now.TimeOfDay > min_time)
             {
-                textBox1.Text = ("Zaczêto odliczaæ czas :)");
+                textBox1.Text = ("ZaczÃªto odliczaÃ¦ czas :)");
                 DateTime now = DateTime.Now;
                 startTime = DateTime.Now;
                 string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -316,7 +317,7 @@ namespace TimeCalculator
             }
             else
             {
-                textBox1.Text = ("Jeszcze nie mo¿na zacz¹æ oliczania czasu :(");
+                textBox1.Text = ("Jeszcze nie moÂ¿na zaczÂ¹Ã¦ oliczania czasu :(");
             }
         }
 
