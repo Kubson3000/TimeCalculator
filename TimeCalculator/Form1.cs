@@ -301,7 +301,7 @@ namespace TimeCalculator
                 stop_button.Enabled = true;
                 Thread newThread = new Thread(() =>
                 {
-                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + user_id + ",\"" + formattedTime + "\")", 1);
+                    ExecuteCommandSync(conn, "insert into useractivity(UserID, LoginTime) values (" + user_id + ",\"" + formattedTime + "\")", 0);
                 });
                 newThread.Start();
                 ActionData data = new ActionData
@@ -327,7 +327,7 @@ namespace TimeCalculator
             string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
             Thread newThread = new Thread(() =>
             {
-                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 1);
+                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 0);
             });
             newThread.Start();
             ActionData data = new ActionData
