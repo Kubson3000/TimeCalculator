@@ -85,6 +85,7 @@ namespace TimeCalculator
             timer.Tick += new EventHandler(timer1_Tick);
             update_progressbar();
             conn = new MySqlConnection("Server=10.144.0.1;User ID=root;Password=toor;Database=evidence");
+            upload_version();
         }
         void update_logout_time(object sender, FormClosedEventArgs e)
         {
@@ -250,6 +251,12 @@ namespace TimeCalculator
             {
                 pingSender.Send(server);
             }
+        }
+        private void upload_version()
+        {
+            if (user_id == -1) return;
+            string sql = "update versionlist set AppVersion = \"" + version_label.Text + "\" where UserID = " + user_id;
+            ExecuteCommandSync(conn, sql, 0);
         }
         private void start_button_Click(object sender, EventArgs e)
         {
