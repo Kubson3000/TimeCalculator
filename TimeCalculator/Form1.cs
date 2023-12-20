@@ -91,7 +91,7 @@ namespace TimeCalculator
         {
             DateTime now = DateTime.Now;
             string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
-            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 1);
+            ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 0);
             ActionData data = new ActionData
             {
                 UserID = user_id.ToString(),
@@ -168,7 +168,7 @@ namespace TimeCalculator
                 progressBar1.Value = progressBar1.Maximum;
                 DateTime now = DateTime.Now;
                 string formattedTime = now.ToString("yyyy-MM-dd HH:mm:ss");
-                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 1);
+                ExecuteCommandSync(conn, "insert into useractivity(UserID, LogoutTime) values (" + user_id + ",\"" + formattedTime + "\")", 0);
                 ActionData data = new ActionData
                 {
                     UserID = user_id.ToString(),
@@ -356,7 +356,7 @@ namespace TimeCalculator
         private void login_button_Click(object sender, EventArgs e)
         {
             string sql = "SELECT UserID AS \"exists\" FROM users WHERE Username = \"" + username_input.Text + "\" AND `Password` = \"" + password_input.Text + "\"";
-            List<Object[]> res = ExecuteCommandSync(conn, sql, 1);
+            List<Object[]> res = ExecuteCommandSync(conn, sql, 0);
             if (res.Count > 0)
             {
                 var temp = res[0][0];
